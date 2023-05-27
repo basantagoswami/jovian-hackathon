@@ -28,27 +28,31 @@ export class AuthService {
     return newUser;
   }
 
-  async login(loginDto: LoginDto) {
-    const { username, password } = loginDto;
-
+  async validateUser(username: string, password: string): Promise<boolean> {
     const user = await this.usersRepository.findOne({ where: { username } });
 
     if (!user) {
-      throw new HttpException(
-        'Wrong credentials provided',
-        HttpStatus.BAD_REQUEST,
-      );
+      return false;
     }
 
-    const isPasswordValid = await this.comparePassword(password, user.password);
+    const isPasswordValid = this.comparePassword(password, user.password);
 
     if (!isPasswordValid) {
+      return false;
+    }
+
+    return true;
+  }
+
+  async login(loginDto: LoginDto) {
+    const { username, password } = loginDto;
+    const validated = await this.validateUser(username, password);
+    if (!validated) {
       throw new HttpException(
-        'Wrong credentials provided',
+        'Invalid username/password',
         HttpStatus.BAD_REQUEST,
       );
     }
-
     return this.generateBasicAuthHeader(username, password);
   }
 
