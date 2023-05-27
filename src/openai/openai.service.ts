@@ -8,7 +8,7 @@ export class OpenAiService {
 
   constructor(private readonly configService: ConfigService) {
     const configuration = new Configuration({
-      apiKey: configService.get('OPENAI_API_KEY'),
+      apiKey: this.configService.get('OPENAI_API_KEY'),
     });
     this.openai = new OpenAIApi(configuration);
   }
