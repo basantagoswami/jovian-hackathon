@@ -24,7 +24,7 @@ export class EnvironmentVariables {
   DB_NAME: string;
 
   @IsString()
-  OPEN_AI_SECRET_KEY: string;
+  OPENAI_API_KEY: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {

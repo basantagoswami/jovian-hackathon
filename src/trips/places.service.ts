@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { ExplorePlacesDto } from 'src/auth/dto/explore-pages.dto';
-import { UserDto } from 'src/auth/dto/user.dto';
+import { ExplorePlacesDto } from '../auth/dto/explore-pages.dto';
+import { UserDto } from '../auth/dto/user.dto';
+import { OpenAiService } from '../openai/openai.service';
 
 @Injectable()
 export class PlacesService {
+  constructor(private readonly openaiService: OpenAiService) {}
+
   async explore(currentUser: UserDto, explorePlacesDto: ExplorePlacesDto) {
-    return {};
+    return this.openaiService.getData();
   }
 }
