@@ -19,6 +19,9 @@ export class EnvironmentVariables {
 
   @IsString()
   DB_NAME: string;
+
+  @IsString()
+  OPEN_AI_SECRET_KEY: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {

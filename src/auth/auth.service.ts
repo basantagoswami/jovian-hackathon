@@ -53,7 +53,9 @@ export class AuthService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    return this.generateBasicAuthHeader(username, password);
+    return {
+      access_token: this.generateBasicAuthHeader(username, password),
+    };
   }
 
   private comparePassword(providedPassword: string, passwordInDb: string) {
