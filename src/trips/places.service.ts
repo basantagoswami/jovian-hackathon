@@ -8,6 +8,8 @@ export class PlacesService {
   constructor(private readonly openaiService: OpenAiService) {}
 
   async explore(currentUser: UserDto, explorePlacesDto: ExplorePlacesDto) {
-    return this.openaiService.getData();
+    return this.openaiService.getData(
+      'I am looking for a place where I can just chill',
+    );
   }
 }

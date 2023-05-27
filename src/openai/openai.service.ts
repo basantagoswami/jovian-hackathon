@@ -13,24 +13,35 @@ export class OpenAiService {
     this.openai = new OpenAIApi(configuration);
   }
 
-  async getData(): Promise<string> {
+  async getData(text: string): Promise<string> {
+    console.log(text);
     try {
-      // const completion = await this.openai.createChatCompletion({
-      //   model: 'gpt-3.5-turbo',
-      //   messages: [
-      //     {
-      //       content:
-      //         'You are a travel agent. BThe user is describing the kind of place they will like to go and visit. They may or may not have a specific place in mind. Generate a list of comma separated keywords that can be fed into Google Maps places APIs to retrieve the data that they need',
-      //       role: 'system',
-      //     },
-      //     {
-      //       content: 'I am looking for a place to go visit. ',
-      //       role: 'user',
-      //     },
-      //   ],
-      // });
-      // return completion.data.choices[0].text;
-      return 'explore';
+      const completion = await this.openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {
+            content:
+              'You are a travel agent. The user is describing the kind of place they will like to go and visit. They may or may not have a specific place in mind. Generate a list of comma separated keywords that can be fed into Google Maps places APIs to retrieve the data that they need',
+            role: 'system',
+          },
+          {
+            content:
+              'I am looking for a place to go visit. Here is what I have in mind: \n """',
+            role: 'user',
+          },
+          {
+            content: text + '\n"""',
+            role: 'user',
+          },
+        ],
+      });
+      const completionRole = completion.data.choices[0].message.role;
+      const completionText = completion.data.choices[0].message.content;
+      console.log(completion.data.choices[0].message);
+
+      if (completionRole == 'assistant') {
+        return completionText;
+      }
     } catch (e) {
       console.log(e);
     }
