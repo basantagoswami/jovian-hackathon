@@ -25,6 +25,9 @@ export class EnvironmentVariables {
 
   @IsString()
   OPENAI_API_KEY: string;
+
+  @IsString()
+  GOOGLE_MAPS_API_KEY: string;
 }
 
 export function validateEnv(config: Record<string, unknown>) {

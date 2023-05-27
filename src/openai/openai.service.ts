@@ -14,7 +14,6 @@ export class OpenAiService {
   }
 
   async fetchPlacesFromPrompt(text: string): Promise<string[]> {
-    console.log(text);
     try {
       const completion = await this.openai.createChatCompletion({
         model: 'gpt-3.5-turbo',
