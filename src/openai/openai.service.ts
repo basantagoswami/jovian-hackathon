@@ -13,7 +13,7 @@ export class OpenAiService {
     this.openai = new OpenAIApi(configuration);
   }
 
-  async fetchPlacesFromPrompt(text: string): Promise<string> {
+  async fetchPlacesFromPrompt(text: string): Promise<string[]> {
     console.log(text);
     try {
       const completion = await this.openai.createChatCompletion({
@@ -21,7 +21,7 @@ export class OpenAiService {
         messages: [
           {
             content:
-              "You are a travel agent. The user is describing the kind of place they will like to go and visit. They may or may not have a specific place in mind. Generate a list of names of specific places like Bali, Indonesia or Kaziranga, Assam India separated by a |, that can be fed into Google Maps places APIs to retrieve the data that they need. Don't add any prefix or suffix to your response.",
+              "You are a travel agent. The user is describing the kind of place they will like to go and visit. They may or may not have a specific place in mind. Generate a list of 5 names of specific places like Bali, Indonesia or Kaziranga, Assam India separated by a |, that can be fed into Google Maps places APIs to retrieve the data that they need. Don't add any prefix or suffix to your response.",
             role: 'system',
           },
           {
@@ -39,7 +39,7 @@ export class OpenAiService {
       const completionText = completion.data.choices[0].message.content;
 
       if (completionRole == 'assistant') {
-        return completionText;
+        return completionText.split('|');
       }
     } catch (e) {
       console.log(e);

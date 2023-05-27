@@ -9,6 +9,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { validateEnv } from './config/env-validation-schema';
 import { OpenAiModule } from './openai/openai.module';
 import { PlacesModule } from './trips/places.module';
+import { MapsModule } from './maps/maps.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PlacesModule } from './trips/places.module';
     AuthModule,
     OpenAiModule,
     PlacesModule,
+    MapsModule,
   ],
   controllers: [AppController],
   providers: [
