@@ -16,7 +16,10 @@ export class AuthService {
     });
 
     if (user) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Username already exists, please choose another one',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const newUser = this.usersRepository.create(registrationDto);
