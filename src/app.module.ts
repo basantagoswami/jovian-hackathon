@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { validateEnv } from './config/env-validation-schema';
+import { OpenAiModule } from './openai/openai.module';
+import { PlacesModule } from './trips/places.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { validateEnv } from './config/env-validation-schema';
       }),
     }),
     AuthModule,
+    OpenAiModule,
+    PlacesModule,
   ],
   controllers: [AppController],
   providers: [
