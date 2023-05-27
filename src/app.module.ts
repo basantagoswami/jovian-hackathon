@@ -22,6 +22,7 @@ import { validateEnv } from './config/env-validation-schema';
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        ssl: config.get('NODE_ENV') === 'production',
         synchronize: true,
       }),
     }),
