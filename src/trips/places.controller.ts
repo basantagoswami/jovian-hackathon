@@ -2,7 +2,8 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { PlacesService } from './places.service';
 import { CurrentUser } from '../auth/decorators/current-user-decorator';
 import { UserDto } from '../auth/dto/user.dto';
-import { ExplorePlacesDto } from '../auth/dto/explore-pages.dto';
+import { ExplorePlacesDto } from './dto/explore-places.dto';
+import { ScheduleTripDto } from './dto/schedule-trip.dto';
 
 @Controller('places')
 export class PlacesController {
@@ -22,5 +23,13 @@ export class PlacesController {
     @Query('placeName') placeName: string,
   ) {
     return this.placesService.details(currentUser, placeName);
+  }
+
+  @Post('schedule')
+  async schedule(
+    @CurrentUser() currentUser: UserDto,
+    @Body() scheduleTripDto: ScheduleTripDto,
+  ) {
+    return this.placesService.schedule(currentUser, scheduleTripDto);
   }
 }
