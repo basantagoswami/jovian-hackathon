@@ -45,15 +45,16 @@ export class MapsService {
     } = await placeDetails({
       params: {
         place_id: place.place_id,
-        fields: ['name', 'photos'],
+        fields: ['name', 'photos', 'rating'],
         key: this.configService.get('GOOGLE_MAPS_API_KEY'),
       },
     });
 
-    const photoHtml = 'https://picsum.photos/300/200';
-    if (placeInfo?.photos?.length > 0) {
-      placeInfo.photos[0].html_attributions;
-    }
+    const photoUrl = placeInfo.photos.length
+      ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference=${
+          placeInfo.photos[0].photo_reference
+        }&key=${this.configService.get('GOOGLE_MAPS_API_KEY')}`
+      : 'https://picsum.photos/300/200';
 
     const {
       data: { results: placesNearby },
@@ -70,15 +71,16 @@ export class MapsService {
     const hotels = [];
 
     if (placesNearby.length) {
-      for (let i = 0; i < Math.min(5, results.length); i++) {
-        const hotel = results[i];
-        const name = hotel.address_components[0].long_name;
-        const rating = hotel['rating'] ? hotel['rating'] : 'N/A';
+      for (let i = 0; i < Math.min(10, placesNearby.length); i++) {
+        const hotel = placesNearby[i];
+        const name = hotel.name;
+        const rating = hotel.rating ? hotel.rating : 'N/A';
         const placeId = hotel.place_id;
-        const photoURL = 'https://picsum.photos/300/200';
-        //   hotel['photos']?.length > 0
-        // ? hotel['photos'][0].photo_reference
-        // : 'https://picsum.photos/300/200';
+        const photoURL = hotel.photos?.length
+          ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference=${
+              hotel.photos[0].photo_reference
+            }&key=${this.configService.get('GOOGLE_MAPS_API_KEY')}`
+          : 'https://picsum.photos/300/200';
 
         const hotelData = {
           name,
@@ -97,7 +99,7 @@ export class MapsService {
         placeLink,
         placeAddress,
         location,
-        photoHtml,
+        photoUrl,
         hotels,
       },
     };
